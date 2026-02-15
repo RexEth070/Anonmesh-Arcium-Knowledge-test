@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcium & Anonmesh Trivia Quiz</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700;800;900&family=Black+Ops+One&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Exo 2', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Stunning font hierarchy */
+    .ultra-bold {
+      font-family: 'Black Ops One', cursive;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    
+    .cyber-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    
+    .bold-body {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700;
+    }
+    
+    .light-text {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+    }
+    
+    /* Epic background with overlay */
+    .cyber-bg {
+      background-image: url('https://i.postimg.cc/185Nss2Z/7bb2b666b14fbf5fbeebf6dda80b0f5c.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    
+    .cyber-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(88, 28, 135, 0.85), rgba(59, 7, 100, 0.9), rgba(30, 27, 75, 0.85));
+      z-index: 1;
+    }
+    
+    .cyber-bg > * {
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Glowing neon text effect */
+    .neon-glow {
+      text-shadow: 
+        0 0 10px rgba(168, 85, 247, 0.8),
+        0 0 20px rgba(168, 85, 247, 0.6),
+        0 0 30px rgba(168, 85, 247, 0.4),
+        0 0 40px rgba(168, 85, 247, 0.3),
+        0 0 70px rgba(168, 85, 247, 0.2);
+    }
+    
+    .neon-border {
+      box-shadow: 
+        0 0 15px rgba(168, 85, 247, 0.6),
+        0 0 30px rgba(168, 85, 247, 0.4),
+        inset 0 0 15px rgba(168, 85, 247, 0.2);
+      border: 3px solid rgba(168, 85, 247, 0.8);
+    }
+    
+    /* Animated gradient text */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, #a855f7, #ec4899, #8b5cf6, #a855f7);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease infinite;
+    }
+    
+    /* Slide up animation */
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-slide-up {
+      animation: slideUpFade 0.8s ease-out forwards;
+    }
+    
+    /* Pulse animation */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Glass morphism effect */
+    .glass-card {
+      background: rgba(139, 92, 246, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(168, 85, 247, 0.3);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    }
+    
+    .glass-card:hover {
+      background: rgba(139, 92, 246, 0.25);
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      transform: translateY(-5px);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(168, 85, 247, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Audio button redesign */
+    .audio-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+    }
+    
+    .audio-button:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 50px rgba(168, 85, 247, 0.8);
+    }
+    
+    .audio-button:active {
+      transform: scale(0.95);
+    }
+    
+    .audio-button:focus-visible {
+      outline: 3px solid #a855f7;
+      outline-offset: 3px;
+    }
+    
+    @media (max-width: 640px) {
+      .audio-button {
+        width: 56px;
+        height: 56px;
+        bottom: 16px;
+        right: 16px;
+      }
+    }
+    
+    /* Button styles */
+    .cyber-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .cyber-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s, height 0.5s;
+    }
+    
+    .cyber-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    /* Progress bar glow */
+    .progress-glow {
+      box-shadow: 
+        0 0 10px rgba(168, 85, 247, 0.5),
+        inset 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+    
+    /* Logo styling */
+    .logo-glow {
+      filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+    }
+    
+    /* Smooth focus indicators */
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #a855f7;
+      outline-offset: 4px;
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    /* Shimmer effect */
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+    
+    .shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background-size: 1000px 100%;
+      animation: shimmer 3s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useReducer, useCallback, useMemo, useEffect, useRef, memo } = React;
+
+    // ==================== CONSTANTS ====================
+    
+    const STORAGE_KEY = 'quiz_progress';
+    const AUDIO_FADE_DURATION = 1000;
+    
+    const CONFIG = {
+      QUESTIONS_PER_QUIZ: 10,
+    };
+
+    const SCREENS = {
+      HOME: 'home',
+      MODE_SELECT: 'mode-select',
+      LEARN: 'learn',
+      QUIZ_TOPIC: 'quiz-topic',
+      QUIZ_TYPE: 'quiz-type',
+      QUIZ: 'quiz',
+      RESULTS: 'results',
+    };
+
+    // 🔥 FIXED: Updated scoring tiers based on percentage
+    const SCORE_TIERS = [
+      { minPercent: 0, maxPercent: 40, level: 'DECRYPTED', icon: '🔓', color: '#ef4444', desc: 'Vulnerable System' },
+      { minPercent: 40, maxPercent: 60, level: 'PARTIALLY ENCRYPTED', icon: '🔐', color: '#f59e0b', desc: 'Weak Security' },
+      { minPercent: 60, maxPercent: 90, level: 'ENCRYPTED', icon: '🟣', color: '#a855f7', desc: 'Secure Network' },
+      { minPercent: 90, maxPercent: 101, level: 'FULLY ENCRYPTED', icon: '☂️', color: '#10b981', desc: 'Maximum Privacy' },
+    ];
+
+    const LOGOS = {
+      arcium: 'https://i.postimg.cc/PC8sZpR0/20260213-171913-removebg-preview.png',
+      anonmesh: 'https://i.postimg.cc/WD6y6M6D/Coin.png',
+    };
+
+    // Audio URLs with fallbacks
+    const AUDIO_URLS = {
+      bgMusic: [
+        'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3',
+        'https://cdn.pixabay.com/audio/2022/03/15/audio_c8c38c1b23.mp3'
+      ],
+      correct: [
+        'https://cdn.pixabay.com/audio/2021/08/04/audio_12b0c7443c.mp3',
+        'https://cdn.pixabay.com/audio/2022/03/24/audio_8f4c2b8f29.mp3'
+      ],
+      wrong: [
+        'https://cdn.pixabay.com/audio/2022/03/10/audio_c0d3a172d8.mp3',
+        'https://cdn.pixabay.com/audio/2021/08/04/audio_0625c1539c.mp3'
+      ]
+    };
+
+    // ==================== LEARNING CONTENT ====================
+    
+    const CONTENT = {
+      arcium: [
+        { title: "What is Arcium?", content: "Arcium is a decentralized confidential computing network powered by secure Multi-Party Computation (MPC). It enables scalable, trustless execution of privacy-preserving computations—from confidential voting to federated machine learning—all while keeping data encrypted even during processing. Unlike traditional computing that exposes data during use, Arcium ensures your sensitive information stays protected at every stage." },
+        { title: "The Problem Arcium Solves", content: "Data exists in three states: at rest, in transit, and in use. While encryption for data at rest (storage) and in transit (transmission) is well-established, data in use—actively being processed—remains dangerously exposed. Traditional approaches rely on hardware-based Trusted Execution Environments (TEEs), which have critical flaws like vulnerabilities (Spectre, Meltdown) and centralization. Arcium solves this 'data-in-use' problem cryptographically, completing the encryption trinity." },
+        { title: "How Multi-Party Computation Works", content: "Arcium uses MPC protocols to split data across multiple nodes called Arx Nodes. These nodes work together to compute results without any single node accessing the complete data. Think of it like a puzzle: each person holds one piece, they can verify the picture is correct without seeing each other's pieces. This eliminates the need for trusted third parties and hardware vulnerabilities." },
+        { title: "Key Network Components", content: "The Arcium Network consists of several core elements: Arx Nodes (compute providers that execute MPC), Clusters (groups of nodes working together), MXEs (Multi-Party eXecution Environments for isolated computations), and the ARX token (which powers staking and governance). All orchestration happens on-chain through smart contracts, leveraging Solana's high-performance infrastructure." },
+        { title: "ARX Token Economics", content: "ARX is a utility token with dynamic supply that adjusts based on network demand. During low demand, tokens are minted to incentivize nodes to remain in standby. During high demand, ARX is burned (deflated) through a portion of priority fees being swapped and destroyed. This mint-and-burn mechanism ensures the network can bootstrap rapidly while maintaining long-term sustainability." },
+        { title: "MPC Protocols - Cerberus & Manticore", content: "Arcium supports two MPC protocols: Cerberus provides the strongest security guarantees using authenticated secret sharing (as long as one honest node exists, computation integrity is guaranteed). Manticore operates faster in 'honest but curious' settings, ideal for machine learning and AI applications. Developers can choose the right protocol for their specific needs—security vs. speed." },
+        { title: "Security & Trust Model", content: "Unlike hardware-based TEEs that can be compromised, Arcium relies purely on cryptographic security through MPC protocols. The network requires NO trust in hardware manufacturers or attestation services. As long as a single honest node exists in a Cluster, the computation's integrity is mathematically guaranteed. This distributed trust model makes Arcium resistant to single points of failure." },
+        { title: "Real-World Use Cases", content: "Arcium enables powerful applications: confidential voting (vote without revealing choices), private financial analytics (compute on sensitive data without exposure), federated AI/ML training (train models on encrypted data from multiple parties), secure data collaboration (companies can compute together without sharing raw data), and any computation requiring privacy without trusting a central authority." },
+        { title: "Staking & Node Operations", content: "To operate an Arx Node, operators must stake ARX tokens proportional to their computational capacity. This stake acts as collateral—misbehavior results in slashing (penalties). Third-party delegators can also stake to nodes, sharing both rewards and slashing risks. Node operators earn through self-delegation rewards and fees from delegators, while the network uses stake-weighted voting to set computation prices." },
+        { title: "The Future - Multi-Chain & Scalability", content: "Arcium is blockchain-agnostic by design. While initially deploying on Solana, the network will expand to multiple chains, enabling cross-ecosystem privacy-preserving operations. The modular architecture allows new MPC protocols to be added over time. With parallel execution through MXEs, code splitting, and optimized consensus offloading, Arcium can scale from niche cryptographic operations to enterprise-grade confidential computing." }
+      ],
+      anonmesh: [
+        { title: "What is Anonmesh?", content: "Anonmesh is an offline-first, infrastructure-independent network for encrypted communication and crypto payments. It works without internet, WiFi, or cellular networks by creating mesh connections between nearby phones using Bluetooth or LoRa. Born from witnessing infrastructure failures during emergencies, Anonmesh ensures communication and payments work when you need them most—even when governments cut access or disasters destroy infrastructure." },
+        { title: "Why Infrastructure-Independent Communication Matters", content: "During conflicts, natural disasters, and protests, governments often cut internet access. Traditional payment and communication systems fail completely. Festivals and sporting events overload cell networks. Underground transit has no signal. Remote areas have permanent dead zones. International travel requires expensive data plans. Anonmesh solves all these problems by removing dependency on centralized infrastructure entirely." },
+        { title: "How Anonmesh Works", content: "Your phone connects to other nearby phones through Bluetooth or LoRa—no internet needed. Messages and transactions hop through intermediary devices like passing a note through many people. Each phone becomes a relay point, creating a resilient web of connections. When any node regains internet, transactions are broadcast to Solana blockchain. Everything happens with end-to-end encryption—intermediaries can't read your data." },
+        { title: "Why 'Mesh'?", content: "All phones connect in a mesh network. If you're far from the recipient, your message hops through other phones to reach its destination. Unlike traditional networks with central towers, mesh networks have no single point of failure. Every phone strengthens the network. The more users, the more resilient the system becomes. It's completely peer-to-peer and decentralized." },
+        { title: "Why 'Anon'?", content: "No signup. No email. No phone number. No KYC. You only need a Solana wallet. Every time you use the app, you're a random 'shadow node'—completely anonymous. No one knows who you are or can track your activity. Unlike traditional apps that collect data, Anonmesh is built for privacy from the ground up. Your identity is your cryptographic wallet, nothing more." },
+        { title: "Powered by Arcium", content: "Anonmesh uses Arcium's confidential computing layer to keep your data encrypted even when it reaches the blockchain. This means double encryption: end-to-end encryption for messages in transit, PLUS on-chain encryption for maximum privacy. Even when transactions are recorded on Solana, the sensitive data remains encrypted using Arcium's Multi-Party Computation protocols." },
+        { title: "Real-World Testing & Scale", content: "Anonmesh has been successfully tested across 16 acres of open terrain, proving the mesh network concept works in real conditions. The next challenge is scaling to thousands of simultaneous users—imagine a packed stadium with 50,000 people or a large protest march. The technology must handle high density, rapid connection changes, and maintain performance under stress." },
+        { title: "Emergency Use Cases", content: "Conflict zones: When governments shut down networks to suppress information. Natural disasters: Earthquakes, hurricanes destroy cell towers. Government shutdowns: Protests where authorities cut access. Censorship: Bypass state-level internet blocks. In these critical moments, Anonmesh keeps working when traditional systems fail, enabling coordination, aid distribution, and communication with the outside world." },
+        { title: "Payments Without Internet", content: "Send SOL, USDC, and other tokens even when offline. Transactions are cryptographically signed locally, queued, and broadcast when ANY device in the mesh reconnects. Recipients see pending transactions immediately through the mesh, and can even spend them conditionally before blockchain confirmation. It's like digital cash that works without banks or internet." },
+        { title: "The Vision", content: "Anonmesh represents a paradigm shift: communication and money that can't be shut down, censored, or controlled. While big tech relies on massive infrastructure, Anonmesh turns every user into infrastructure. It's resilient by design, private by default, and works when nothing else does. This is the internet as it should have been—decentralized, uncensorable, and truly peer-to-peer." }
+      ]
+    };
+
+    // ==================== QUIZ DATA (ALL 30 QUESTIONS) ====================
+    
+    const QUIZ_DATA = {
+      arcium: [
+        { question: "What cryptographic technology powers Arcium's confidential computing?", options: ["Zero-Knowledge Proofs", "Multi-Party Computation (MPC)", "Homomorphic Encryption", "Trusted Execution Environments"], correct: "Multi-Party Computation (MPC)", explanation: "Arcium uses Multi-Party Computation (MPC) protocols to enable secure computation across distributed nodes without exposing data." },
+        { question: "What is the primary vulnerability that Arcium addresses?", options: ["Data at rest", "Data in transit", "Data in use", "Data storage"], correct: "Data in use", explanation: "Arcium solves the 'data-in-use' problem—keeping data encrypted even while it's being actively processed, completing the encryption trinity." },
+        { question: "What are Arx Nodes?", options: ["Storage providers", "Compute providers that execute MPC", "Governance validators", "Token minting nodes"], correct: "Compute providers that execute MPC", explanation: "Arx Nodes are the compute providers in the Arcium Network that execute Multi-Party Computation tasks." },
+        { question: "What is the ARX token's supply mechanism?", options: ["Fixed supply", "Dynamic mint-and-burn based on demand", "Proof-of-Work mining", "Annual inflation rate"], correct: "Dynamic mint-and-burn based on demand", explanation: "ARX has dynamic supply—minting tokens during low demand and burning them during high demand to balance network incentives." },
+        { question: "Which MPC protocol offers the strongest security guarantees?", options: ["Manticore", "Cerberus", "Phoenix", "Hydra"], correct: "Cerberus", explanation: "Cerberus provides the strongest security using authenticated secret sharing—as long as one honest node exists, computation integrity is guaranteed." },
+        { question: "What happens if a node operator misbehaves?", options: ["They earn reduced rewards", "Their stake gets slashed", "They're temporarily suspended", "Nothing—it's trustless"], correct: "Their stake gets slashed", explanation: "Misbehaving node operators face slashing—penalties that reduce their staked ARX tokens as economic punishment." },
+        { question: "What blockchain does Arcium initially deploy on?", options: ["Ethereum", "Solana", "Polygon", "Avalanche"], correct: "Solana", explanation: "Arcium initially deploys on Solana to leverage its high-performance infrastructure for on-chain orchestration." },
+        { question: "What is an MXE in Arcium?", options: ["Multi-Chain Exchange", "Multi-Party eXecution Environment", "Multi-Node Executor", "Multi-Protocol Extension"], correct: "Multi-Party eXecution Environment", explanation: "MXE stands for Multi-Party eXecution Environment—isolated compute environments for running confidential computations." },
+        { question: "What is the key advantage of MPC over hardware-based TEEs?", options: ["Faster computation", "Lower cost", "No trust in hardware required", "Easier to implement"], correct: "No trust in hardware required", explanation: "Unlike TEEs which require trust in hardware manufacturers, MPC relies purely on cryptographic security with no hardware trust assumptions." },
+        { question: "What type of use case is Manticore protocol optimized for?", options: ["Financial transactions", "Confidential voting", "Machine learning and AI", "Data storage"], correct: "Machine learning and AI", explanation: "Manticore operates faster in 'honest but curious' settings, making it ideal for machine learning and AI applications." },
+        { question: "How does Arcium ensure computation integrity?", options: ["Through blockchain consensus", "Single trusted validator", "Cryptographic MPC protocols", "Hardware attestation"], correct: "Cryptographic MPC protocols", explanation: "Arcium uses cryptographic MPC protocols where even a single honest node guarantees computation integrity—no central trust required." },
+        { question: "What is the purpose of node clusters in Arcium?", options: ["Load balancing traffic", "Groups of nodes working together on MPC", "Storing encrypted data", "Managing token distribution"], correct: "Groups of nodes working together on MPC", explanation: "Clusters are groups of Arx Nodes that collaborate to execute Multi-Party Computation tasks together." },
+        { question: "What is federated machine learning?", options: ["Training models centrally on aggregated data", "Training models on encrypted data from multiple parties", "Distributing model inference across nodes", "Compressing ML models for efficiency"], correct: "Training models on encrypted data from multiple parties", explanation: "Federated ML allows multiple parties to train models together on their private data without sharing the raw data—enabled by Arcium's MPC." },
+        { question: "What does 'blockchain-agnostic' mean for Arcium?", options: ["It doesn't use blockchain", "It only works with one blockchain", "It can work with multiple different blockchains", "It's faster than blockchain"], correct: "It can work with multiple different blockchains", explanation: "Blockchain-agnostic means Arcium can expand beyond Solana to work with multiple blockchain ecosystems in the future." },
+        { question: "What is the trust model for Arcium?", options: ["Trust hardware manufacturers", "Trust a central authority", "Trust all nodes to be honest", "Trust that at least one node is honest"], correct: "Trust that at least one node is honest", explanation: "Arcium's security requires only that at least ONE honest node exists in a cluster—no need to trust all nodes or central authorities." }
+      ],
+      anonmesh: [
+        { question: "What connectivity does Anonmesh use for offline communication?", options: ["WiFi and cellular", "Bluetooth and LoRa", "Satellite and radio", "Ethernet and fiber"], correct: "Bluetooth and LoRa", explanation: "Anonmesh creates mesh networks using Bluetooth or LoRa—no internet, WiFi, or cellular networks required." },
+        { question: "What does 'mesh' mean in Anonmesh?", options: ["Encrypted connection", "Central tower network", "Phones connecting to each other peer-to-peer", "Cloud-based routing"], correct: "Phones connecting to each other peer-to-peer", explanation: "Mesh means all phones connect directly to each other, forming a web of peer-to-peer connections without central infrastructure." },
+        { question: "What personal information is required to use Anonmesh?", options: ["Email and phone number", "Government ID", "Only a Solana wallet", "Social media account"], correct: "Only a Solana wallet", explanation: "Anonmesh requires NO signup, email, or phone number—only a Solana wallet for true anonymity." },
+        { question: "How do messages reach distant recipients in Anonmesh?", options: ["Through cell towers", "Via satellite relay", "Hopping through intermediary phones", "Direct Bluetooth connection"], correct: "Hopping through intermediary phones", explanation: "Messages hop through multiple phones like passing a note, creating a resilient path even when sender and receiver are far apart." },
+        { question: "What blockchain does Anonmesh use for transactions?", options: ["Bitcoin", "Ethereum", "Solana", "Polygon"], correct: "Solana", explanation: "Anonmesh broadcasts transactions to the Solana blockchain when any node in the mesh regains internet connectivity." },
+        { question: "What privacy layer does Anonmesh use for on-chain encryption?", options: ["Zero-Knowledge proofs", "Arcium's confidential computing", "Monero's ring signatures", "Tor network"], correct: "Arcium's confidential computing", explanation: "Anonmesh uses Arcium's Multi-Party Computation to keep data encrypted even when transactions reach the blockchain." },
+        { question: "What scale has Anonmesh been tested at?", options: ["City-wide deployment", "16 acres of open terrain", "10,000 simultaneous users", "Global network"], correct: "16 acres of open terrain", explanation: "Anonmesh has been successfully tested across 16 acres of open terrain, proving the mesh concept works in real conditions." },
+        { question: "When is Anonmesh most critical?", options: ["During normal daily use", "When internet is shut down or infrastructure fails", "For international calls", "For fast transactions"], correct: "When internet is shut down or infrastructure fails", explanation: "Anonmesh is designed for emergencies—conflicts, disasters, protests, and censorship when traditional systems fail completely." },
+        { question: "Can you send crypto payments through Anonmesh offline?", options: ["No, blockchain requires internet", "Yes, transactions queue and broadcast later", "Only for small amounts", "Only with special hardware"], correct: "Yes, transactions queue and broadcast later", explanation: "Transactions are signed offline, queued in the mesh, and broadcast when ANY device reconnects—like digital cash that works without internet." },
+        { question: "What makes Anonmesh censorship-resistant?", options: ["Government approval", "Encrypted servers", "No central infrastructure to shut down", "VPN routing"], correct: "No central infrastructure to shut down", explanation: "Since Anonmesh has no central servers or infrastructure, there's no single point governments can shut down or censor." },
+        { question: "What is double encryption in Anonmesh?", options: ["Encrypting data twice with same key", "End-to-end encryption + on-chain encryption via Arcium", "Using two separate mesh networks", "Bluetooth and LoRa simultaneously"], correct: "End-to-end encryption + on-chain encryption via Arcium", explanation: "Messages are encrypted end-to-end in transit AND remain encrypted on-chain using Arcium's MPC for maximum privacy." },
+        { question: "What happens to intermediary devices relaying your messages?", options: ["They can read your messages", "They earn token rewards", "They can't read encrypted data", "They store message copies"], correct: "They can't read encrypted data", explanation: "All messages are end-to-end encrypted—intermediary phones relay data but cannot read the contents they're passing along." },
+        { question: "What tokens can be sent through Anonmesh?", options: ["Only SOL", "SOL, USDC, and other Solana tokens", "Only stablecoins", "Any cryptocurrency"], correct: "SOL, USDC, and other Solana tokens", explanation: "Anonmesh supports SOL, USDC, and other tokens on the Solana blockchain for offline payments." },
+        { question: "What is a 'shadow node' in Anonmesh?", options: ["A backup server", "Your anonymous identity on the network", "A malicious node", "A node that's offline"], correct: "Your anonymous identity on the network", explanation: "Every user is a 'shadow node'—completely anonymous with no identifying information beyond their cryptographic wallet." },
+        { question: "What is the vision behind Anonmesh?", options: ["Faster internet access", "Cheaper phone bills", "Uncensorable, decentralized communication that can't be shut down", "Better video streaming"], correct: "Uncensorable, decentralized communication that can't be shut down", explanation: "Anonmesh aims to create communication and payments that are resilient, private, decentralized, and work when nothing else does." }
+      ]
+    };
+
+    // ==================== UTILITY FUNCTIONS ====================
+    
+    // 🔥 FIXED: Proper Fisher-Yates shuffle to prevent duplicate questions
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // 🔥 FIXED: Updated to use percentage-based scoring
+    function getEncryptionLevel(score, total) {
+      const percentage = (score / total) * 100;
+      
+      for (const tier of SCORE_TIERS) {
+        if (percentage >= tier.minPercent && percentage < tier.maxPercent) {
+          return tier;
+        }
+      }
+      
+      // Fallback to max tier if 100%
+      return SCORE_TIERS[SCORE_TIERS.length - 1];
+    }
+
+    function saveProgress(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn('Failed to save progress:', e);
+      }
+    }
+
+    function loadProgress() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+      } catch (e) {
+        console.warn('Failed to load progress:', e);
+        return null;
+      }
+    }
+
+    function clearProgress() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        console.warn('Failed to clear progress:', e);
+      }
+    }
+
+    // ==================== CUSTOM HOOKS ====================
+    
+    // 🔥 FIXED: Audio hook with proper mute functionality
+    function useAudio() {
+      const [isEnabled, setIsEnabled] = useState(false);
+      const [isLoading, setIsLoading] = useState(true);
+      const audioRef = useRef({
+        bgMusic: null,
+        correctSound: null,
+        wrongSound: null,
+      });
+      const volumeRef = useRef({ bg: 0.25, fx: 0.5 });
+      const fadeIntervalRef = useRef(null);
+
+      useEffect(() => {
+        const loadAudio = async () => {
+          try {
+            const loadWithFallback = async (urls, key) => {
+              for (const url of urls) {
+                try {
+                  const audio = new Audio(url);
+                  audio.preload = 'auto';
+                  await new Promise((resolve, reject) => {
+                    audio.addEventListener('canplaythrough', resolve, { once: true });
+                    audio.addEventListener('error', reject, { once: true });
+                    audio.load();
+                  });
+                  return audio;
+                } catch (e) {
+                  console.warn(`Failed to load ${key} from ${url}:`, e);
+                }
+              }
+              throw new Error(`All fallbacks failed for ${key}`);
+            };
+
+            const [bgMusic, correctSound, wrongSound] = await Promise.all([
+              loadWithFallback(AUDIO_URLS.bgMusic, 'bgMusic'),
+              loadWithFallback(AUDIO_URLS.correct, 'correct'),
+              loadWithFallback(AUDIO_URLS.wrong, 'wrong'),
+            ]);
+
+            bgMusic.loop = true;
+            bgMusic.volume = volumeRef.current.bg;
+            correctSound.volume = volumeRef.current.fx;
+            wrongSound.volume = volumeRef.current.fx;
+
+            audioRef.current = { bgMusic, correctSound, wrongSound };
+            setIsLoading(false);
+          } catch (e) {
+            console.error('Failed to load audio:', e);
+            setIsLoading(false);
+          }
+        };
+
+        loadAudio();
+
+        return () => {
+          if (fadeIntervalRef.current) {
+            clearInterval(fadeIntervalRef.current);
+          }
+          Object.values(audioRef.current).forEach(audio => {
+            if (audio) {
+              audio.pause();
+              audio.src = '';
+            }
+          });
+        };
+      }, []);
+
+      const fadeVolume = useCallback((audio, targetVolume, duration) => {
+        if (!audio) return Promise.resolve();
+        
+        return new Promise((resolve) => {
+          const startVolume = audio.volume;
+          const volumeStep = (targetVolume - startVolume) / (duration / 50);
+          
+          if (fadeIntervalRef.current) {
+            clearInterval(fadeIntervalRef.current);
+          }
+          
+          fadeIntervalRef.current = setInterval(() => {
+            const newVolume = audio.volume + volumeStep;
+            
+            if ((volumeStep > 0 && newVolume >= targetVolume) || 
+                (volumeStep < 0 && newVolume <= targetVolume)) {
+              audio.volume = targetVolume;
+              clearInterval(fadeIntervalRef.current);
+              if (targetVolume === 0) {
+                audio.pause();
+              }
+              resolve();
+            } else {
+              audio.volume = newVolume;
+            }
+          }, 50);
+        });
+      }, []);
+
+      const playBgMusic = useCallback(async () => {
+        if (!audioRef.current.bgMusic || !isEnabled) return;
+        
+        try {
+          audioRef.current.bgMusic.volume = 0;
+          await audioRef.current.bgMusic.play();
+          await fadeVolume(audioRef.current.bgMusic, volumeRef.current.bg, AUDIO_FADE_DURATION);
+        } catch (e) {
+          console.warn('Background music play failed:', e);
+        }
+      }, [isEnabled, fadeVolume]);
+
+      const pauseBgMusic = useCallback(async () => {
+        if (!audioRef.current.bgMusic) return;
+        await fadeVolume(audioRef.current.bgMusic, 0, AUDIO_FADE_DURATION / 2);
+      }, [fadeVolume]);
+
+      const playCorrect = useCallback(() => {
+        if (!audioRef.current.correctSound || !isEnabled) return;
+        
+        try {
+          audioRef.current.correctSound.currentTime = 0;
+          audioRef.current.correctSound.play().catch(e => console.warn('Correct sound play failed:', e));
+        } catch (e) {
+          console.warn('Correct sound error:', e);
+        }
+      }, [isEnabled]);
+
+      const playWrong = useCallback(() => {
+        if (!audioRef.current.wrongSound || !isEnabled) return;
+        
+        try {
+          audioRef.current.wrongSound.currentTime = 0;
+          audioRef.current.wrongSound.play().catch(e => console.warn('Wrong sound play failed:', e));
+        } catch (e) {
+          console.warn('Wrong sound error:', e);
+        }
+      }, [isEnabled]);
+
+      const vibrate = useCallback((pattern = [200]) => {
+        if (!isEnabled || !('vibrate' in navigator)) return;
+        try {
+          navigator.vibrate(pattern);
+        } catch (e) {
+          console.warn('Vibration failed:', e);
+        }
+      }, [isEnabled]);
+
+      // 🔥 FIXED: Toggle function now properly controls background music
+      const toggleAudio = useCallback(() => {
+        setIsEnabled(prev => {
+          const newState = !prev;
+          
+          // Immediately control background music based on new state
+          if (newState) {
+            // Audio being enabled - play if not home screen
+            if (audioRef.current.bgMusic && audioRef.current.bgMusic.paused) {
+              playBgMusic();
+            }
+          } else {
+            // Audio being disabled - pause immediately
+            if (audioRef.current.bgMusic && !audioRef.current.bgMusic.paused) {
+              pauseBgMusic();
+            }
+          }
+          
+          return newState;
+        });
+      }, [playBgMusic, pauseBgMusic]);
+
+      return {
+        isEnabled,
+        isLoading,
+        playBgMusic,
+        pauseBgMusic,
+        playCorrect,
+        playWrong,
+        vibrate,
+        toggleAudio,
+      };
+    }
+
+    // ==================== REDUCER ====================
+    
+    const ACTIONS = {
+      SET_SCREEN: 'SET_SCREEN',
+      SELECT_MODE: 'SELECT_MODE',
+      SELECT_TOPIC: 'SELECT_TOPIC',
+      START_QUIZ: 'START_QUIZ',
+      ANSWER_QUESTION: 'ANSWER_QUESTION',
+      NEXT_QUESTION: 'NEXT_QUESTION',
+      NEXT_PAGE: 'NEXT_PAGE',
+      PREV_PAGE: 'PREV_PAGE',
+      RESET: 'RESET',
+      LOAD_PROGRESS: 'LOAD_PROGRESS',
+    };
+
+    function quizReducer(state, action) {
+      switch (action.type) {
+        case ACTIONS.SET_SCREEN:
+          return { ...state, screen: action.payload };
+          
+        case ACTIONS.SELECT_MODE:
+          return { 
+            ...state, 
+            mode: action.payload,
+            screen: action.payload === 'learn' ? SCREENS.QUIZ_TOPIC : SCREENS.QUIZ_TOPIC
+          };
+          
+        case ACTIONS.SELECT_TOPIC:
+          return {
+            ...state,
+            selectedTopic: action.payload,
+            screen: state.mode === 'learn' ? SCREENS.LEARN : SCREENS.QUIZ_TYPE
+          };
+          
+        case ACTIONS.START_QUIZ:
+          const quizData = QUIZ_DATA[state.selectedTopic];
+          // 🔥 FIXED: Shuffle first, then slice to ensure no duplicates
+          const shuffled = shuffleArray(quizData);
+          const questions = action.payload === 'quick' 
+            ? shuffled.slice(0, CONFIG.QUESTIONS_PER_QUIZ)
+            : shuffled;
+          
+          return {
+            ...state,
+            quizType: action.payload,
+            questions,
+            currentQuestion: 0,
+            score: 0,
+            answered: false,
+            isCorrect: false,
+            selectedAnswer: null,
+            screen: SCREENS.QUIZ
+          };
+          
+        case ACTIONS.ANSWER_QUESTION:
+          const currentQ = state.questions[state.currentQuestion];
+          const isCorrect = action.payload === currentQ.correct;
+          
+          return {
+            ...state,
+            answered: true,
+            isCorrect,
+            selectedAnswer: action.payload,
+            score: isCorrect ? state.score + 1 : state.score
+          };
+          
+        case ACTIONS.NEXT_QUESTION:
+          if (state.currentQuestion < state.questions.length - 1) {
+            return {
+              ...state,
+              currentQuestion: state.currentQuestion + 1,
+              answered: false,
+              isCorrect: false,
+              selectedAnswer: null
+            };
+          }
+          return { ...state, screen: SCREENS.RESULTS };
+          
+        case ACTIONS.NEXT_PAGE:
+          return { ...state, learningPage: Math.min(state.learningPage + 1, CONTENT[state.selectedTopic].length - 1) };
+          
+        case ACTIONS.PREV_PAGE:
+          return { ...state, learningPage: Math.max(state.learningPage - 1, 0) };
+          
+        case ACTIONS.RESET:
+          clearProgress();
+          return {
+            screen: SCREENS.HOME,
+            mode: null,
+            selectedTopic: null,
+            quizType: null,
+            currentQuestion: 0,
+            score: 0,
+            answered: false,
+            isCorrect: false,
+            selectedAnswer: null,
+            questions: [],
+            learningPage: 0,
+          };
+          
+        case ACTIONS.LOAD_PROGRESS:
+          return { ...state, ...action.payload };
+          
+        default:
+          return state;
+      }
+    }
+
+    // ==================== COMPONENTS ====================
+
+    const Button = memo(({ children, onClick, variant = 'primary', className = '', disabled = false, ariaLabel }) => {
+      const baseClass = "px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-base sm:text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-3 focus-visible:outline-violet-400 focus-visible:outline-offset-2 cyber-button ";
+      const variantClass = variant === 'primary'
+        ? "bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 hover:from-violet-500 hover:via-purple-500 hover:to-pink-500 text-white neon-border bold-body"
+        : "bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600 text-white border-2 border-purple-500 bold-body";
+      
+      return (
+        <button 
+          onClick={onClick} 
+          className={baseClass + variantClass + " " + className} 
+          disabled={disabled}
+          aria-label={ariaLabel}
+        >
+          {children}
+        </button>
+      );
+    });
+
+    const ProgressBar = memo(({ current, total, className = '' }) => {
+      const percentage = (current / total) * 100;
+      return (
+        <div className={`w-full bg-black/40 rounded-full h-8 overflow-hidden border-2 border-violet-500 ${className}`} role="progressbar" aria-valuenow={current} aria-valuemin="0" aria-valuemax={total}>
+          <div 
+            className="h-full bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500 transition-all duration-500 flex items-center justify-center progress-glow"
+            style={{width: `${percentage}%`}}
+          >
+            <span className="text-white text-sm sm:text-base font-bold cyber-title">{current}/{total}</span>
+          </div>
+        </div>
+      );
+    });
+
+    const AudioButton = memo(({ isEnabled, onToggle, isLoading }) => {
+      return (
+        <button
+          onClick={onToggle}
+          className="audio-button"
+          aria-label={isEnabled ? "Mute audio" : "Unmute audio"}
+          disabled={isLoading}
+          title={isEnabled ? "Mute audio" : "Unmute audio"}
+        >
+          {isLoading ? (
+            <span className="text-3xl animate-pulse-slow">⏳</span>
+          ) : (
+            <span className="text-3xl">{isEnabled ? '🔊' : '🔇'}</span>
+          )}
+        </button>
+      );
+    });
+
+    // ==================== SCREENS ====================
+
+    // 🔥 FIXED: HomeScreen now starts music when clicking START button
+    const HomeScreen = memo(({ onStart, onEnableAudio }) => {
+      const handleStart = () => {
+        onEnableAudio(); // Enable and start music
+        onStart(); // Navigate to next screen
+      };
+      
+      return (
+        <div className="min-h-screen cyber-bg flex items-center justify-center p-4 sm:p-8">
+          <div className="text-center max-w-5xl w-full animate-slide-up">
+            {/* Logos */}
+            <div className="flex justify-center items-center gap-6 sm:gap-10 mb-6 sm:mb-8 animate-float">
+              <img 
+                src={LOGOS.arcium} 
+                alt="Arcium" 
+                className="w-20 h-20 sm:w-32 sm:h-32 object-contain logo-glow"
+              />
+              <div className="text-6xl sm:text-8xl">🧠</div>
+              <img 
+                src={LOGOS.anonmesh} 
+                alt="Anonmesh" 
+                className="w-20 h-20 sm:w-32 sm:h-32 object-contain logo-glow"
+              />
+            </div>
+            
+            {/* Main Title */}
+            <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold text-white mb-4 sm:mb-6 ultra-bold neon-glow">
+              TRIVIA QUIZ GAME
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-xl sm:text-2xl md:text-3xl mb-10 sm:mb-16 gradient-text bold-body">
+              Learn and test your knowledge on privacy
+            </p>
+            
+            {/* Start Button */}
+            <Button 
+              onClick={handleStart} 
+              className="text-2xl sm:text-3xl px-12 sm:px-16 py-5 sm:py-7 transform hover:scale-110" 
+              ariaLabel="Start quiz"
+            >
+              START →
+            </Button>
+          </div>
+        </div>
+      );
+    });
+
+    const ModeSelectScreen = memo(({ onSelectMode, onBack }) => (
+      <div className="min-h-screen cyber-bg flex items-center justify-center p-4 sm:p-8">
+        <div className="text-center max-w-5xl w-full animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 sm:mb-12 cyber-title neon-glow">
+            CHOOSE YOUR PATH
+          </h1>
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10">
+            <button
+              onClick={() => onSelectMode('learn')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-violet-500"
+              aria-label="Learn Mode"
+            >
+              <div className="text-6xl sm:text-7xl mb-6 animate-float">📚</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">LEARN MODE</h2>
+              <p className="text-lg sm:text-xl text-violet-200 bold-body">Explore detailed explanations about Arcium and Anonmesh</p>
+            </button>
+            <button
+              onClick={() => onSelectMode('quiz')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-purple-500"
+              aria-label="Quiz Mode"
+            >
+              <div className="text-6xl sm:text-7xl mb-6 animate-float">🧠</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">QUIZ MODE</h2>
+              <p className="text-lg sm:text-xl text-purple-200 bold-body">Test your knowledge with interactive challenges</p>
+            </button>
+          </div>
+          <Button onClick={onBack} variant="secondary" ariaLabel="Go back">← BACK</Button>
+        </div>
+      </div>
+    ));
+
+    const TopicSelectScreen = memo(({ onSelectTopic, onBack }) => (
+      <div className="min-h-screen cyber-bg flex items-center justify-center p-4 sm:p-8">
+        <div className="text-center max-w-5xl w-full animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 sm:mb-12 cyber-title neon-glow">
+            SELECT TOPIC
+          </h1>
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10">
+            <button
+              onClick={() => onSelectTopic('arcium')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-violet-500"
+              aria-label="Arcium topic"
+            >
+              <img src={LOGOS.arcium} alt="Arcium logo" className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-6 object-contain logo-glow animate-float" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">ARCIUM</h2>
+              <p className="text-lg sm:text-xl text-violet-200 bold-body">Confidential Computing & MPC</p>
+            </button>
+            <button
+              onClick={() => onSelectTopic('anonmesh')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-purple-500"
+              aria-label="Anonmesh topic"
+            >
+              <img src={LOGOS.anonmesh} alt="Anonmesh logo" className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-6 object-contain logo-glow animate-float" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">ANONMESH</h2>
+              <p className="text-lg sm:text-xl text-purple-200 bold-body">Offline Mesh Networking</p>
+            </button>
+          </div>
+          <Button onClick={onBack} variant="secondary" ariaLabel="Go back">← BACK</Button>
+        </div>
+      </div>
+    ));
+
+    const LearnScreen = memo(({ topic, page, onNext, onPrev, onChangeTopic, onStartQuiz, onHome }) => {
+      const content = CONTENT[topic][page];
+      const total = CONTENT[topic].length;
+      const logo = LOGOS[topic];
+      const isLastPage = page === total - 1;
+
+      return (
+        <div className="min-h-screen cyber-bg p-4 sm:p-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="glass-card rounded-2xl p-6 sm:p-10 shadow-2xl">
+              <div className="flex items-center justify-between mb-6 sm:mb-8 flex-wrap gap-4">
+                <div className="flex items-center gap-4">
+                  <img src={logo} alt={`${topic} logo`} className="w-14 h-14 sm:w-20 sm:h-20 object-contain logo-glow" />
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white cyber-title uppercase">{topic} Learning</h1>
+                </div>
+                <span className="text-lg sm:text-xl text-violet-200 bold-body">PAGE {page + 1}/{total}</span>
+              </div>
+              <ProgressBar current={page + 1} total={total} className="mb-8" />
+              <div className="glass-card rounded-xl p-6 sm:p-8 mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 cyber-title neon-glow">{content.title}</h2>
+                <p className="text-base sm:text-lg text-violet-100 leading-relaxed light-text">{content.content}</p>
+              </div>
+              <div className="flex justify-between items-center flex-wrap gap-4">
+                <Button 
+                  onClick={onPrev} 
+                  disabled={page === 0}
+                  ariaLabel="Previous page"
+                >
+                  ← PREVIOUS
+                </Button>
+                <div className="flex gap-3 flex-wrap">
+                  <Button onClick={onChangeTopic} variant="secondary" ariaLabel="Change topic">
+                    CHANGE TOPIC
+                  </Button>
+                  <Button onClick={onHome} variant="secondary" ariaLabel="Go to home">
+                    HOME
+                  </Button>
+                </div>
+                {!isLastPage ? (
+                  <Button onClick={onNext} ariaLabel="Next page">NEXT →</Button>
+                ) : (
+                  <Button onClick={onStartQuiz} ariaLabel="Take quiz">TAKE QUIZ →</Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
+    const QuizTypeScreen = memo(({ onSelectType, onBack }) => (
+      <div className="min-h-screen cyber-bg flex items-center justify-center p-4 sm:p-8">
+        <div className="text-center max-w-5xl w-full animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 sm:mb-12 cyber-title neon-glow">
+            SELECT QUIZ TYPE
+          </h1>
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10">
+            <button
+              onClick={() => onSelectType('quick')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-violet-500"
+              aria-label="Quick Quiz"
+            >
+              <div className="text-6xl sm:text-7xl mb-6">⚡</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">QUICK QUIZ</h2>
+              <p className="text-lg sm:text-xl text-violet-200 bold-body">10 Random Questions</p>
+              <p className="text-base sm:text-lg text-violet-300 mt-2 light-text">~5 minutes</p>
+            </button>
+            <button
+              onClick={() => onSelectType('full')}
+              className="glass-card rounded-2xl p-8 sm:p-10 transition-all duration-300 focus-visible:outline focus-visible:outline-3 focus-visible:outline-purple-500"
+              aria-label="Full Quiz"
+            >
+              <div className="text-6xl sm:text-7xl mb-6">🎯</div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 cyber-title">FULL QUIZ</h2>
+              <p className="text-lg sm:text-xl text-purple-200 bold-body">All Questions</p>
+              <p className="text-base sm:text-lg text-purple-300 mt-2 light-text">~15 minutes</p>
+            </button>
+          </div>
+          <Button onClick={onBack} variant="secondary" ariaLabel="Go back">← BACK</Button>
+        </div>
+      </div>
+    ));
+
+    const QuizScreen = memo(({ 
+      topic, 
+      questions, 
+      currentIndex, 
+      score, 
+      answered, 
+      isCorrect, 
+      selectedAnswer,
+      onAnswer,
+      onNext 
+    }) => {
+      const currentQ = questions[currentIndex];
+      const logo = LOGOS[topic];
+      const isLastQuestion = currentIndex === questions.length - 1;
+
+      return (
+        <div className="min-h-screen cyber-bg p-4 sm:p-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="glass-card rounded-2xl p-6 sm:p-10 shadow-2xl">
+              <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+                <div className="flex items-center gap-4">
+                  <img src={logo} alt={`${topic} logo`} className="w-14 h-14 sm:w-20 sm:h-20 object-contain logo-glow" />
+                  <span className="text-2xl sm:text-3xl font-bold text-white cyber-title uppercase">{topic}</span>
+                </div>
+                <span className="text-lg sm:text-xl text-violet-200 bold-body">
+                  QUESTION {currentIndex + 1}/{questions.length}
+                </span>
+              </div>
+              <ProgressBar current={currentIndex + 1} total={questions.length} className="mb-8" />
+              <div className="glass-card rounded-xl p-6 sm:p-8 mb-8">
+                <h2 className="text-xl sm:text-2xl text-white font-bold mb-6 cyber-title">{currentQ.question}</h2>
+                <div className="space-y-4">
+                  {currentQ.options.map((option, idx) => {
+                    let buttonClass = "w-full p-4 sm:p-5 rounded-xl text-left text-base sm:text-lg font-bold transition-all duration-200 ";
+                    
+                    if (answered) {
+                      if (option === currentQ.correct) {
+                        buttonClass += "bg-green-600/80 border-2 border-green-400 text-white neon-border";
+                      } else if (option === selectedAnswer) {
+                        buttonClass += "bg-red-600/80 border-2 border-red-400 text-white";
+                      } else {
+                        buttonClass += "bg-gray-800/50 border-2 border-gray-700 text-gray-400";
+                      }
+                    } else {
+                      buttonClass += "glass-card text-white cursor-pointer hover:bg-violet-600/40";
+                    }
+                    
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => onAnswer(option)}
+                        disabled={answered}
+                        className={buttonClass}
+                        aria-label={`Option ${idx + 1}: ${option}`}
+                      >
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              {answered && (
+                <div className={`p-5 sm:p-6 rounded-xl mb-6 border-3 ${
+                  isCorrect 
+                    ? 'bg-green-900/40 border-green-500 neon-border' 
+                    : 'bg-red-900/40 border-red-500'
+                }`} role="alert">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-4xl sm:text-5xl" aria-hidden="true">
+                      {isCorrect ? '✅' : '❌'}
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white cyber-title">
+                      {isCorrect ? 'CORRECT! 🎉' : 'INCORRECT'}
+                    </h3>
+                  </div>
+                  <p className="text-white text-base sm:text-lg light-text">{currentQ.explanation}</p>
+                </div>
+              )}
+              <div className="flex justify-between items-center flex-wrap gap-4">
+                <div className="text-xl sm:text-2xl text-violet-200 bold-body">
+                  SCORE: {score}/{currentIndex + (answered ? 1 : 0)}
+                </div>
+                {answered && (
+                  <Button onClick={onNext} className="text-lg sm:text-xl px-8 py-4" ariaLabel={isLastQuestion ? "See results" : "Next question"}>
+                    {isLastQuestion ? 'SEE RESULTS →' : 'NEXT →'}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
+    const ResultsScreen = memo(({ topic, score, total, onPlayAgain, onChangeTopic, onHome }) => {
+      const { level, icon, color, desc } = useMemo(() => getEncryptionLevel(score, total), [score, total]);
+      const percentage = Math.round((score / total) * 100);
+      const isExpert = percentage === 100;
+
+      return (
+        <div className="min-h-screen cyber-bg p-4 sm:p-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="glass-card rounded-2xl p-10 sm:p-14 shadow-2xl animate-slide-up">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 sm:mb-10 ultra-bold neon-glow">
+                QUIZ COMPLETE!
+              </h1>
+              <div className="mb-8 sm:mb-10">
+                <div className="text-7xl sm:text-9xl mb-6 animate-pulse-slow" aria-hidden="true">{icon}</div>
+                <h2 
+                  className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 break-words px-4 cyber-title neon-glow" 
+                  style={{color}}
+                >
+                  {level}
+                </h2>
+                <p className="text-2xl sm:text-3xl text-violet-200 mb-3 bold-body">{desc}</p>
+                <p className="text-6xl sm:text-7xl font-bold text-white mt-6 ultra-bold gradient-text">
+                  {score} / {total}
+                </p>
+                <p className="text-2xl sm:text-3xl text-violet-300 mt-3 light-text">{percentage}% CORRECT</p>
+              </div>
+              {isExpert && (
+                <div className="bg-green-900/40 border-3 border-green-500 rounded-xl p-6 sm:p-8 mb-8 sm:mb-10 neon-border">
+                  <p className="text-3xl sm:text-4xl font-bold text-green-300 cyber-title">🎉 CONGRATULATIONS! 🎉</p>
+                  <p className="text-xl sm:text-2xl text-green-200 mt-3 bold-body">
+                    You're {topic === 'arcium' ? 'an Arcium' : 'an Anonmesh'} EXPERT!
+                  </p>
+                </div>
+              )}
+              <div className="space-y-4 sm:space-y-5">
+                <Button onClick={onPlayAgain} className="w-full text-xl sm:text-2xl px-8 py-5" ariaLabel="Play again">
+                  PLAY AGAIN
+                </Button>
+                <Button onClick={onChangeTopic} variant="secondary" className="w-full text-xl sm:text-2xl px-8 py-5" ariaLabel="Change topic">
+                  CHANGE TOPIC
+                </Button>
+                <Button onClick={onHome} className="w-full text-xl sm:text-2xl px-8 py-5 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500" ariaLabel="Return to home">
+                  RETURN HOME
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
+    // ==================== MAIN APP ====================
+
+    function App() {
+      const initialState = {
+        screen: SCREENS.HOME,
+        mode: null,
+        selectedTopic: null,
+        quizType: null,
+        currentQuestion: 0,
+        score: 0,
+        answered: false,
+        isCorrect: false,
+        selectedAnswer: null,
+        questions: [],
+        learningPage: 0,
+      };
+
+      const [state, dispatch] = useReducer(quizReducer, initialState);
+      const audio = useAudio();
+
+      useEffect(() => {
+        if (state.screen === SCREENS.QUIZ || state.screen === SCREENS.LEARN) {
+          saveProgress(state);
+        }
+      }, [state]);
+
+      // 🔥 FIXED: Background music management
+      useEffect(() => {
+        if (audio.isEnabled && !audio.isLoading) {
+          if (state.screen !== SCREENS.HOME) {
+            audio.playBgMusic();
+          } else {
+            audio.pauseBgMusic();
+          }
+        }
+      }, [state.screen, audio.isEnabled, audio.isLoading]);
+
+      const handleAnswer = useCallback((answer) => {
+        const currentQ = state.questions[state.currentQuestion];
+        const isCorrect = answer === currentQ.correct;
+        
+        dispatch({ type: ACTIONS.ANSWER_QUESTION, payload: answer });
+        
+        if (isCorrect) {
+          audio.playCorrect();
+        } else {
+          audio.playWrong();
+          audio.vibrate([200, 100, 200]);
+        }
+      }, [state.questions, state.currentQuestion, audio]);
+
+      // 🔥 NEW: Function to enable audio and start music
+      const handleEnableAudio = useCallback(() => {
+        if (!audio.isEnabled) {
+          audio.toggleAudio();
+        }
+      }, [audio]);
+
+      if (state.screen === SCREENS.HOME) {
+        return (
+          <>
+            <HomeScreen 
+              onStart={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.MODE_SELECT })} 
+              onEnableAudio={handleEnableAudio}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.MODE_SELECT) {
+        return (
+          <>
+            <ModeSelectScreen
+              onSelectMode={(mode) => dispatch({ type: ACTIONS.SELECT_MODE, payload: mode })}
+              onBack={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.HOME })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.QUIZ_TOPIC) {
+        return (
+          <>
+            <TopicSelectScreen
+              onSelectTopic={(topic) => dispatch({ type: ACTIONS.SELECT_TOPIC, payload: topic })}
+              onBack={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.MODE_SELECT })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.LEARN) {
+        return (
+          <>
+            <LearnScreen
+              topic={state.selectedTopic}
+              page={state.learningPage}
+              onNext={() => dispatch({ type: ACTIONS.NEXT_PAGE })}
+              onPrev={() => dispatch({ type: ACTIONS.PREV_PAGE })}
+              onChangeTopic={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.QUIZ_TOPIC })}
+              onStartQuiz={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.QUIZ_TYPE })}
+              onHome={() => dispatch({ type: ACTIONS.RESET })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.QUIZ_TYPE) {
+        return (
+          <>
+            <QuizTypeScreen
+              onSelectType={(type) => dispatch({ type: ACTIONS.START_QUIZ, payload: type })}
+              onBack={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.QUIZ_TOPIC })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.QUIZ) {
+        return (
+          <>
+            <QuizScreen
+              topic={state.selectedTopic}
+              questions={state.questions}
+              currentIndex={state.currentQuestion}
+              score={state.score}
+              answered={state.answered}
+              isCorrect={state.isCorrect}
+              selectedAnswer={state.selectedAnswer}
+              onAnswer={handleAnswer}
+              onNext={() => dispatch({ type: ACTIONS.NEXT_QUESTION })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      if (state.screen === SCREENS.RESULTS) {
+        return (
+          <>
+            <ResultsScreen
+              topic={state.selectedTopic}
+              score={state.score}
+              total={state.questions.length}
+              onPlayAgain={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.QUIZ_TYPE })}
+              onChangeTopic={() => dispatch({ type: ACTIONS.SET_SCREEN, payload: SCREENS.QUIZ_TOPIC })}
+              onHome={() => dispatch({ type: ACTIONS.RESET })}
+            />
+            <AudioButton isEnabled={audio.isEnabled} onToggle={audio.toggleAudio} isLoading={audio.isLoading} />
+          </>
+        );
+      }
+
+      return null;
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
